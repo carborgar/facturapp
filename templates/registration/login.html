@@ -4,7 +4,7 @@
 
 {% block content %}
 <h1>Iniciar sesión</h1>
-<form method="post">
+<form autocomplete="on" method="post" name="login">
     {% csrf_token %}
     {% bootstrap_form form %}
     <button class="btn btn-primary" type="submit">Iniciar sesión</button>

@@ -1,4 +1,3 @@
-from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404
@@ -12,7 +11,7 @@ from .models import Client
 
 
 @login_required
-def listar_clients(request):
+def list_clients(request):
     clients = Client.objects.filter(owner=request.user)
 
     return render(request, 'clients/list.html', {'clients': clients})
@@ -23,11 +22,11 @@ class ClientUpsertView(LoginRequiredMixin, CreateView, UpdateView):
     form_class = ClientForm
     template_name = 'clients/client_form.html'
     success_url = reverse_lazy('list_clients')
+    success_message = "Cliente guardado con éxito"
 
     def get_object(self, queryset=None):
         pk = self.kwargs.get('pk')
         if pk:
-            messages.info(self.request, 'Modificar un cliente no afecta a las facturas pasadas.')
             return get_object_or_404(Client, pk=pk, owner=self.request.user)
         return None
 
@@ -42,7 +41,5 @@ class ClientUpsertView(LoginRequiredMixin, CreateView, UpdateView):
         if Client.exists_with_nif_and_owner(nif, self.request.user, exclude_pk):
             form.add_error('nif', 'Ya existe un cliente con este NIF en tu cartera.')
             return self.form_invalid(form)
-
-        messages.success(self.request, 'Cliente guardado con éxito.')
 
         return super().form_valid(form)

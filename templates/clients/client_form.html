@@ -5,6 +5,12 @@
 <div class="row">
     <div class="col-4">
         <h1>{% if form.instance.pk %}Modificación de cliente{% else %}Alta de cliente{% endif %}</h1>
+        {% if form.instance.pk %}
+        <div class="alert alert-info alert-dismissible fade show" role="alert">Modificar un cliente no afecta a las
+            facturas pasadas.
+            <button aria-label="Close" class="btn-close" data-bs-dismiss="alert" type="button"></button>
+        </div>
+        {% endif %}
         <form method="post">
             {% csrf_token %}
             {% bootstrap_form form %}

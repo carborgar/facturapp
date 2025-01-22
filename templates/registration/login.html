@@ -1,18 +1,12 @@
 <!-- templates/registration/login.html -->
 {% extends 'base_generic.html' %}
+{% load django_bootstrap5 %}
 
 {% block content %}
-  <h1>Iniciar sesión</h1>
-  <form method="post">
+<h1>Iniciar sesión</h1>
+<form method="post">
     {% csrf_token %}
-    <div class="form-group">
-      <label for="id_username">Usuario</label>
-      <input class="form-control" id="id_username" name="username" required type="text">
-    </div>
-    <div class="form-group">
-      <label for="id_password">Contraseña</label>
-      <input class="form-control" id="id_password" name="password" required type="password">
-    </div>
+    {% bootstrap_form form %}
     <button class="btn btn-primary" type="submit">Iniciar sesión</button>
-  </form>
+</form>
 {% endblock %}

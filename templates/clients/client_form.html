@@ -1,0 +1,19 @@
+{% extends 'base_generic.html' %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+<div class="row">
+    <div class="col-4">
+        <h1>{% if form.instance.pk %}Modificación de cliente{% else %}Alta de cliente{% endif %}</h1>
+        <form method="post">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+
+            <button class="btn btn-primary" type="submit">
+                {% if form.instance.pk %}Guardar{% else %}Crear{% endif %}
+            </button>
+            <a class="btn btn-secondary" href="{% url 'list_clients' %}">Cancelar</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

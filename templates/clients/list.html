@@ -1,0 +1,63 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+<h1>Clientes</h1>
+
+<a class="btn btn-primary" href="{% url 'add_client' %}">Nuevo cliente</a>
+
+<div class="my-3">
+    <input class="form-control" id="searchInput" maxlength="30" placeholder="Buscar por nombre cualquier campo"
+           type="text">
+</div>
+
+<div class="row row-cols-1 row-cols-md-3 g-4 mt-1" id="clientList">
+    {% for client in clients %}
+    <div class="col client-card">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title mb-3">{{ client.name }}</h5>
+                <h6 class="card-subtitle mb-2"><i class="fas fa-id-card"></i> {{ client.nif }}</h6>
+                <p class="card-text"><i class="fas fa-map-marker-alt"></i> {{ client.address }} - {{ client.city }}
+                    ({{ client.province }})</p>
+                <a class="card-link" href="{% url 'edit_client' client.pk %}"><i class="fas fa-edit"></i> Editar</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- Script para buscador dinámico y reordenar resultados -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const searchInput = document.getElementById('searchInput');
+        const clientList = document.getElementById('clientList');
+        const clientCards = Array.from(clientList.children); // Convertimos los nodos en array
+
+        searchInput.addEventListener('input', function () {
+            const searchQuery = searchInput.value.toLowerCase();
+
+            // Filtrar y reordenar las tarjetas
+            const filteredCards = clientCards.filter(function (card) {
+                const cardText = card.textContent.toLowerCase();
+                return cardText.includes(searchQuery);
+            });
+
+            // Limpiar la lista de clientes y agregar solo los resultados
+            clientList.innerHTML = '';
+            filteredCards.forEach(function (card) {
+                clientList.appendChild(card);
+            });
+
+            // Si no hay resultados, mostrar un mensaje
+            if (filteredCards.length === 0) {
+                clientList.innerHTML = `
+                        <div class="alert alert-warning text-center" role="alert">
+                            No hay resultados para la búsqueda con "<strong>${searchInput.value}</strong>".
+                    </div>
+                `;
+            }
+        });
+    });
+</script>
+
+{% endblock %}

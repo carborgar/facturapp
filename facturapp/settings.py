@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'clients.apps.ClientsConfig',
+    'invoices.apps.InvoicesConfig',
     'localflavor',
     'django_filters',
     'django_bootstrap5',
@@ -109,6 +110,8 @@ LANGUAGE_CODE = 'es-es'
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
+DATE_INPUT_FORMATS = ('%d/%m/%Y',)
+DATE_FORMAT = 'd/m/Y'
 
 USE_TZ = True
 
@@ -116,6 +119,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+
+STATIC_ROOT = "/var/www/facturApp/static/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

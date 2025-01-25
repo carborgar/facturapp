@@ -1,0 +1,48 @@
+{% extends "base_generic.html" %}
+
+{% block title %}Listado de Facturas{% endblock %}
+
+{% block content %}
+<h1>Listado de Facturas</h1>
+<a class="btn btn-success mb-3" href="#">Nueva Factura</a>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Nº Factura</th>
+        <th>Cliente</th>
+        <th>Fecha</th>
+        <th>Estado</th>
+        <th>Total</th>
+        <th>Acciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for invoice in invoices %}
+    <tr>
+        <td>{{ invoice.number }}</td>
+        <td>{{ invoice.client_name }}</td>
+        <td>{{ invoice.date }}</td>
+        <td>{{ invoice.get_status_display }}</td>
+        <td>{{ invoice.get_total|floatformat:2 }}</td>
+        <td>
+            <a class="btn btn-primary btn-sm" href="{% url 'invoice_pdf' invoice.pk %}">Descargar PDF</a>
+            {% comment %}
+            #TODO: Definir las acciones en base al estado de la factura.
+            <a class="btn btn-info btn-sm" href="{% url 'invoice_detail' invoice.pk %}">Ver</a>
+            <a class="btn btn-info btn-sm" href="{% url 'invoice_edit' invoice.pk %}">Editar</a>
+            <a class="btn btn-info btn-sm" href="{% url 'invoice_send' invoice.pk %}">Enviar</a>
+            <a class="btn btn-info btn-sm" href="{% url 'invoice_delete' invoice.pk %}">Borrar</a>
+            <a class="btn btn-info btn-sm" href="{% url 'invoice_export' invoice.pk %}">Exportar</a>
+            <a class="btn btn-info btn-sm" href="{% url 'invoice_paid' invoice.pk %}">Pagada</a>
+            <a class="btn btn-info btn-sm" href="{% url 'invoice_unpaid' invoice.pk %}">No pagada</a>
+            {% endcomment %}
+        </td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="6">No hay facturas disponibles.</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

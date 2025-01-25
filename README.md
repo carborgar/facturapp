@@ -1,7 +1,5 @@
 # FacturaApp
 
-![Tests Status](https://github.com/carborgar/facturapp/workflows/tests.yml/badge.svg)
-
 FacturaApp is a Django-based web application for managing client information and user authentication.
 
 ## Features
